@@ -1,26 +1,21 @@
 const { Schema, model } = require('mongoose')
 
 const appointmentSchema = new Schema({
-	title: {
+	name: {
 		type: String,
 		required: true,
 	},
-	titleImage: String,
-	text: String,
-	tags: {
+	message: String,
+	price: Number,
+	location: {
 		type: [String],
 		required: true,
 	},
-	locations: {
-		type: [String],
-		required: true,
-	},
-	links: [String],
 	status: {
-		type: ['draft', 'public'],
+		type: ['requested', 'commited', 'declined'],
 		required: true,
 	},
-	author: {
+	requester: {
 		type: Schema.Types.ObjectId,
 		ref: 'User',
 	},

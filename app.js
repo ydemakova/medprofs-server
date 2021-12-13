@@ -8,11 +8,13 @@ require('./config')(app)
 const { isLoggedIn } = require('./ressources/auth/auth.middleware')
 const authRouter = require('./ressources/auth/auth.routes')
 const usersRouter = require('./ressources/user/user.routes')
-const articleRouter = require('./ressources/article/article.routes')
+const articlesRouter = require('./ressources/article/article.routes')
+const appointmentsRouter = require('./ressources/appointment/appointment.routes')
 
 app.use('/api/auth', authRouter)
-app.use('/api/users', isLoggedIn, usersRouter)
-app.use('/api/articles', isLoggedIn, articleRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/articles', articlesRouter)
+app.use('/api/appointments', appointmentsRouter)
 require('./error-handling')(app)
 
 // ---------------------------------------------------

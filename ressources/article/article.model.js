@@ -5,17 +5,16 @@ const articleSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	titleImage: String,
 	text: String,
 	tags: {
 		type: [String],
+		required: false,
+	},
+	location: {
+		type: String,
 		required: true,
 	},
-	locations: {
-		type: [String],
-		required: true,
-	},
-	links: [String],
+	link: String,
 	status: {
 		type: ['draft', 'public'],
 		required: true,

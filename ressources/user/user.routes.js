@@ -3,27 +3,27 @@ const User = require('./user.model')
 
 const router = express.Router()
 
-// create one article
+// create one user
 router.post('/', async (req, res, next) => {
 	const userDto = req.body // "DTO" means data transfer object
 	const user = await User.create(userDto).catch((err) => next(err))
 	return res.json(user)
 })
 
-// read one article
+// read one user
 router.get('/:id', async (req, res, next) => {
 	const { id } = req.params
 	const user = await User.findById(id).catch((err) => next(err))
 	return res.json(user)
 })
 
-// read many/all article
+// read many/all users
 router.get('/', async (req, res, next) => {
 	const users = await User.find().catch((err) => next(err))
 	return res.json(users)
 })
 
-// update one article
+// update one user
 router.put('/:id', async (req, res, next) => {
 	const { id } = req.params
 	const userDto = req.body // "DTO" means data transfer object
@@ -32,7 +32,7 @@ router.put('/:id', async (req, res, next) => {
 	return res.json(user)
 })
 
-// delete one article
+// delete one user
 router.delete('/:id', async (req, res, next) => {
 	const { id } = req.params
 	await User.findByIdAndDelete(id).catch((err) => next(err))
