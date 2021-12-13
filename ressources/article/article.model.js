@@ -6,6 +6,10 @@ const articleSchema = new Schema({
 		required: true,
 	},
 	text: String,
+	sphere: {
+		type: String,
+		required: true,
+	},
 	tags: {
 		type: [String],
 		required: false,
