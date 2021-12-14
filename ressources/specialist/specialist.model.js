@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose')
 
-const userSchema = new Schema({
+const specialistSchema = new Schema({
 	username: {
 		type: String,
 		required: true,
@@ -36,8 +36,8 @@ const userSchema = new Schema({
 	specialization: [String],
 	degree: [String],
 	background: [String],
-	type: ['patient', 'professional'],
+	type: ['visitor', 'specialist'],
 })
 
-const User = model('User', userSchema)
-module.exports = User
+const Specialist = model('Specialist', specialistSchema)
+module.exports = Specialist
