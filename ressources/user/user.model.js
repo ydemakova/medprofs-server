@@ -1,9 +1,10 @@
 const { Schema, model } = require('mongoose')
 
-const visitorSchema = new Schema({
+const userSchema = new Schema({
 	username: {
 		type: String,
 		required: true,
+		unique: true,
 	},
 	firstName: {
 		type: String,
@@ -16,13 +17,22 @@ const visitorSchema = new Schema({
 	email: {
 		type: String,
 		required: true,
+		unique: true,
 	},
 	password: {
 		type: String,
 		required: true,
 	},
+	address: {
+		city: String,
+		country: String,
+	},
+	education: String,
+	specialization: [String],
+	degree: [String],
+	background: [String],
 	type: ['visitor', 'specialist'],
 })
 
-const Visitor = model('Visitor', visitorSchema)
-module.exports = Visitor
+const User = model('User', userSchema)
+module.exports = User

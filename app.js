@@ -1,9 +1,12 @@
 const express = require('express')
+const session = require('express-session')
+const MongoStore = require('connect-mongo')
+const configFactory = require('./config')
 require('dotenv/config')
 require('./db')
 
 const app = express()
-require('./config')(app)
+configFactory(app)
 
 const { isLoggedIn } = require('./ressources/auth/auth.middleware')
 const authRouter = require('./ressources/auth/auth.routes')
@@ -11,18 +14,9 @@ const usersRouter = require('./ressources/user/user.routes')
 const articlesRouter = require('./ressources/article/article.routes')
 const appointmentsRouter = require('./ressources/appointment/appointment.routes')
 
-app.use('/api/auth', authRouter)
-app.use('/api/users', usersRouter)
-app.use('/api/articles', articlesRouter)
-app.use('/api/appointments', appointmentsRouter)
-require('./error-handling')(app)
-
 // ---------------------------------------------------
 //      EXPRESS-SESSION CONFIG
 // ---------------------------------------------------
-
-const session = require('express-session')
-const MongoStore = require('connect-mongo')
 
 app.use(
 	session({
@@ -39,5 +33,15 @@ app.use(
 		}),
 	}),
 )
+
+// ---------------------------------------------------
+//      ROUTES
+// ---------------------------------------------------
+
+app.use('/api/auth', authRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/articles', articlesRouter)
+app.use('/api/appointments', appointmentsRouter)
+require('./error-handling')(app)
 
 module.exports = app
