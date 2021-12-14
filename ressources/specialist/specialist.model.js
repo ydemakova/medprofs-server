@@ -17,6 +17,10 @@ const specialistSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	userImage: {
+		type: String,
+		required: true,
+	},
 	password: {
 		type: String,
 		required: true,
@@ -29,15 +33,9 @@ const specialistSchema = new Schema({
 		type: [String],
 		required: true,
 	},
-	specialization: {
-		type: String,
-		required: true,
-	},
+	specialization: [String],
 	degree: [String],
-	background: {
-		type: [String],
-		required: true,
-	},
+	background: [String],
 	type: ['visitor', 'specialist'],
 })
 
