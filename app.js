@@ -21,7 +21,7 @@ const appointmentsRouter = require('./ressources/appointment/appointment.routes'
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET, //DON'T FORGET TO ADD THIS IN YOUR .'.env' File
-		resave: false,
+		resave: true,
 		saveUninitialized: false,
 		cookie: {
 			maxAge: 1000 * 24 * 60 * 60, // your cookie will be cleared after these seconds
