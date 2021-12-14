@@ -61,7 +61,7 @@ router.post('/sign-in', async (req, res) => {
 
 router.post('/sign-out', (req, res) => {
 	req.session.destroy()
-	res.sendStatus(204)
+	res.status(204).json({})
 })
 
 async function signIn(email, password) {
