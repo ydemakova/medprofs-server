@@ -5,17 +5,22 @@ const appointmentSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	message: String,
-	price: Number,
+	date: {
+		type: Date,
+		required: true,
+	},
 	location: {
 		type: [String],
 		required: true,
 	},
+	message: String,
+	price: Number,
 	status: {
 		type: ['requested', 'commited', 'declined'],
-		required: true,
+		default: 'requested',
 	},
-	requester: {
+
+	specialist: {
 		type: Schema.Types.ObjectId,
 		ref: 'User',
 	},
