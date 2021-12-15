@@ -16,8 +16,10 @@ const appointmentSchema = new Schema({
 	message: String,
 	price: Number,
 	status: {
-		type: ['requested', 'commited', 'declined'],
+		type: String,
+		enum: ['requested', 'commited', 'declined'],
 		default: 'requested',
+		required: true,
 	},
 
 	specialist: {

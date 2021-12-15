@@ -20,7 +20,9 @@ const articleSchema = new Schema({
 	},
 	link: String,
 	status: {
-		type: ['draft', 'public'],
+		type: String,
+		enum: ['draft', 'public'],
+		default: 'draft',
 		required: true,
 	},
 	author: {

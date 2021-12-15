@@ -23,15 +23,16 @@ const userSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	address: {
-		city: String,
-		country: String,
-	},
+	address: String,
 	education: String,
-	specialization: [String],
-	degree: [String],
-	background: [String],
-	type: ['visitor', 'specialist'],
+	specialization: String,
+	degree: String,
+	background: String,
+	role: {
+		type: String,
+		enum: ['visitor', 'specialist'],
+		default: 'visitor',
+	},
 })
 
 const User = model('User', userSchema)

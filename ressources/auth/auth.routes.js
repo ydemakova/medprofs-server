@@ -36,9 +36,10 @@ router.post('/sign-up', async (req, res) => {
 		return res.status(500).json({ message: 'Something went wrong! Try again later!' })
 	}
 
-	delete userCreated.password // insure password is deleted
-	const userSignedIn = await signIn(userCreated.email, userCreated.password)
-	return res.status(200).json(userSignedIn)
+	console.log(JSON.stringify(userCreated, null, 2))
+	userCreated.password = '***'
+	req.session.loggedInUser = userCreated
+	return res.status(200).json(userCreated)
 })
 
 router.post('/sign-in', async (req, res) => {
@@ -51,9 +52,16 @@ router.post('/sign-in', async (req, res) => {
 		return res.status(400).json({ message: 'Email format not correct' })
 	}
 
-	const user = await signIn(email, password)
-	if (user) {
+	let err
+	const user = await User.findOne({ email }).catch((e) => (err = e))
+
+	if (err) {
+		return res.status(404).json({ message: 'Email does not exist' })
+	}
+	if (user && bcrypt.compareSync(password, user.password)) {
+		user.password = '***'
 		req.session.loggedInUser = user
+		console.log(JSON.stringify(user, null, 2))
 		return res.status(200).json(user)
 	}
 	return res.status(400).json({ message: "Email and password don't match!" })
@@ -63,21 +71,6 @@ router.post('/sign-out', (req, res) => {
 	req.session.destroy()
 	res.status(204).json({})
 })
-
-async function signIn(email, password) {
-	let err
-	const user = await User.findOne({ email }).catch((e) => (err = e))
-
-	if (err) {
-		return res.status(404).json({ message: 'Email does not exist' })
-	}
-	if (user && bcrypt.compareSync(password, user.password)) {
-		user.password = '***'
-		return user
-	}
-
-	return false
-}
 
 router.get('/current-user', isLoggedIn, (req, res) => {
 	res.status(200).json(req.session.loggedInUser)
