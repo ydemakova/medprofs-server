@@ -31,12 +31,12 @@ router.get('/:id', async (req, res, next) => {
 // read many/all article
 router.get('/', async (req, res, next) => {
 	const isCurrentUser = req.query.isCurrentUser === 'true'
+	const isNewest = req.query.isNewest === 'true'
 	const user = req.session.loggedInUser
 	console.log(req.session.loggedInUser)
 	let articles
 
 	if (isCurrentUser) {
-		console.log(user)
 		if (!user) {
 			return res.status(401).json({ message: 'User is not signed in!' })
 		}
@@ -44,12 +44,21 @@ router.get('/', async (req, res, next) => {
 		articles = await Article.find({ author: user._id })
 			.populate('author')
 			.catch((err) => next(err))
-	} else {
-		articles = await Article.find()
-			.populate('author')
-			.catch((err) => next(err))
+		return res.json(articles)
 	}
 
+	if (isNewest) {
+		articles = await Article.find()
+			.sort({ date: -1 })
+			.limit(6)
+			.populate('author')
+			.catch((err) => next(err))
+		return res.json(articles)
+	}
+
+	articles = await Article.find()
+		.populate('author')
+		.catch((err) => next(err))
 	return res.json(articles)
 })
 
