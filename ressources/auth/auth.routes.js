@@ -6,7 +6,7 @@ const { regexEmail, regexPassword } = require('./auth.values.js')
 const { isLoggedIn } = require('./auth.middleware')
 
 router.post('/sign-up', async (req, res) => {
-	const { username, email, password, firstName, lastName } = req.body
+	const { username, email, password, firstName, lastName, image } = req.body
 	if (!username || !email || !password || !firstName || !lastName) {
 		return res.status(500).json({
 			errorMessage: 'Please enter your personal data: first name, last name, username, email and password',
@@ -31,7 +31,7 @@ router.post('/sign-up', async (req, res) => {
 
 	if (err) {
 		if (err.code === 11000) {
-			return res.status(409).json({ message: 'username or email entered already exists!' })
+			return res.status(500).json({ message: 'username or email entered already exists!' })
 		}
 		return res.status(500).json({ message: 'Something went wrong! Try again later!' })
 	}

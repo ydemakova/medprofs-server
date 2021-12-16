@@ -8,6 +8,7 @@ require('./db')
 const app = express()
 configFactory(app)
 
+const fileUploadRoutes = require('./ressources/file-upload.routes')
 const { isLoggedIn } = require('./ressources/auth/auth.middleware')
 const authRouter = require('./ressources/auth/auth.routes')
 const usersRouter = require('./ressources/user/user.routes')
@@ -39,6 +40,7 @@ app.use(
 // ---------------------------------------------------
 
 app.use('/api/auth', authRouter)
+app.use('/api', fileUploadRoutes)
 app.use('/api/users', usersRouter)
 app.use('/api/articles', articlesRouter)
 app.use('/api/appointments', appointmentsRouter)
