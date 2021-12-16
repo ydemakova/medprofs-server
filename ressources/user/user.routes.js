@@ -7,7 +7,7 @@ const router = express.Router()
 router.post('/', async (req, res, next) => {
 	const userDto = req.body // "DTO" means data transfer object
 	const user = await User.create(userDto).catch((err) => next(err))
-	return res.json(user)
+	return res.status(201).json(user)
 })
 
 // read one user
@@ -29,7 +29,8 @@ router.put('/:id', async (req, res, next) => {
 	const userDto = req.body // "DTO" means data transfer object
 	const options = { new: true }
 	const user = await User.findByIdAndUpdate(id, userDto, options).catch((err) => next(err))
-	return res.json(user)
+	req.session.loggedInUser = { ...req.session.loggedInUser, ...userDto }
+	return res.status(200).json(user)
 })
 
 // delete one user
