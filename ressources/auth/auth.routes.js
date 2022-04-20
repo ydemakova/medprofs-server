@@ -12,11 +12,11 @@ router.post('/sign-up', async (req, res) => {
 			errorMessage: 'Please enter your personal data: first name, last name, username, email and password',
 		})
 	}
-	if (!regexEmail.test(email)) {
-		return res.status(500).json({
-			errorMessage: 'Email format not correct!',
-		})
-	}
+	// if (!regexEmail.test(email)) {
+	// 	return res.status(500).json({
+	// 		errorMessage: 'Email format not correct!',
+	// 	})
+	// }
 	// if (!regexPassword.test(password)) {
 	// 	return res.status(500).json({
 	// 		errorMessage: 'Password needs to have 8 characters, a number and an Uppercase alphabet',
@@ -27,9 +27,11 @@ router.post('/sign-up', async (req, res) => {
 	const salt = bcrypt.genSaltSync(10)
 	const hash = await bcrypt.hash(password, salt)
 	const user = { ...req.body, password: hash }
+	console.log('user: ', user)
 	const userCreated = await User.create(user).catch((e) => (err = e))
 
 	if (err) {
+		console.log(err)
 		if (err.code === 11000) {
 			return res.status(500).json({ message: 'username or email entered already exists!' })
 		}

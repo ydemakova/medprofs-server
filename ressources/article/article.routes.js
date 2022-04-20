@@ -32,6 +32,7 @@ router.get('/:id', async (req, res, next) => {
 router.get('/', async (req, res, next) => {
 	const isCurrentUser = req.query.isCurrentUser === 'true'
 	const isNewest = req.query.isNewest === 'true'
+	const author = req.query.author
 	const user = req.session.loggedInUser
 	console.log(req.session.loggedInUser)
 	let articles
@@ -42,6 +43,7 @@ router.get('/', async (req, res, next) => {
 		}
 
 		articles = await Article.find({ author: user._id })
+			.sort({ date: -1 })
 			.populate('author')
 			.catch((err) => next(err))
 		return res.json(articles)
@@ -52,6 +54,13 @@ router.get('/', async (req, res, next) => {
 			.sort({ date: -1 })
 			.limit(6)
 			.populate('author')
+			.catch((err) => next(err))
+		return res.json(articles)
+	}
+
+	if (author) {
+		articles = await Article.find({ author })
+			.sort({ date: -1 })
 			.catch((err) => next(err))
 		return res.json(articles)
 	}

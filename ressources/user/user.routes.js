@@ -19,7 +19,15 @@ router.get('/:id', async (req, res, next) => {
 
 // read many/all users
 router.get('/', async (req, res, next) => {
-	const users = await User.find().catch((err) => next(err))
+	const isSpecialistsOnly = !!req.query.isSpecialistsOnly
+	let users
+
+	if (isSpecialistsOnly) {
+		users = await User.find({ role: 'specialist' }).catch((err) => next(err))
+	} else {
+		users = await User.find().catch((err) => next(err))
+	}
+
 	return res.json(users)
 })
 
