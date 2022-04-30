@@ -44,7 +44,7 @@ app.use('/api', fileUploadRoutes)
 app.use('/api/users', usersRouter)
 app.use('/api/articles', articlesRouter)
 app.use('/api/appointments', appointmentsRouter)
-// app.use('*', (_, res) => res.sendFile(__dirname + '/public/index.html'))
+app.use('*', (_, res) => res.sendFile(__dirname + '/public/index.html'))
 require('./error-handling')(app)
 
 module.exports = app
