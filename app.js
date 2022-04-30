@@ -3,7 +3,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const configFactory = require('./config')
 require('dotenv/config')
-require('./db')
+const MONGO_URI = require('./db')
 
 const app = express()
 configFactory(app)
@@ -28,7 +28,7 @@ app.use(
 			maxAge: 1000 * 24 * 60 * 60, // your cookie will be cleared after these seconds
 		},
 		store: MongoStore.create({
-			mongoUrl: process.env.MONGODB_URI || 'mongodb://localhost/medprofs',
+			mongoUrl: MONGO_URI,
 			// Time to Live for sessions in DB. After that time it will delete it!
 			ttl: 24 * 60 * 60, // your session will be cleared after these seconds
 		}),
