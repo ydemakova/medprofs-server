@@ -5,6 +5,9 @@
 	"scripts": {
 		"start": "nodemon server.js"
 	},
+	"engines": {
+		"node": "16.14.2"
+	},
 	"dependencies": {
 		"bcrypt": "^5.0.1",
 		"bcryptjs": "^2.4.3",
