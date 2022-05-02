@@ -19,9 +19,7 @@ const appointmentsRouter = require('./ressources/appointment/appointment.routes'
 // ---------------------------------------------------
 
 const store = MongoStore.create({
-	mongoUrl:
-		process.env.MONGODB_URI ||
-		'mongodb+srv://admin-yulia:Test123!@cluster0.4plfa.mongodb.net/medprofs?retryWrites=true&w=majority',
+	mongoUrl: process.env.MONGODB_URI,
 	ttl: 24 * 60 * 60,
 })
 store.on('error', (e) => {
@@ -44,16 +42,12 @@ app.use(
 //      ROUTES
 // ---------------------------------------------------
 
-app.get('/api', (req, res, next) => {
-	console.log('api')
-	next()
-})
 app.use('/api/auth', authRouter)
 app.use('/api', fileUploadRoutes)
 app.use('/api/users', usersRouter)
 app.use('/api/articles', articlesRouter)
 app.use('/api/appointments', appointmentsRouter)
-// app.use('*', (_, res) => res.sendFile(__dirname + '/public/index.html'))
+app.use('*', (_, res) => res.sendFile(__dirname + '/public/index.html'))
 require('./error-handling')(app)
 
 module.exports = app
