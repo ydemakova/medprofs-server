@@ -20,8 +20,7 @@ const appointmentsRouter = require('./ressources/appointment/appointment.routes'
 
 const store = MongoStore.create({
 	mongoUrl: process.env.MONGODB_URI,
-	secret: process.env.SESSION_SECRET,
-	touchAfter: 24 * 60 * 60,
+	ttl: 24 * 60 * 60,
 })
 store.on('error', (e) => {
 	console.log('SESSION STORE ERROR', e)
@@ -48,7 +47,7 @@ app.use('/api', fileUploadRoutes)
 app.use('/api/users', usersRouter)
 app.use('/api/articles', articlesRouter)
 app.use('/api/appointments', appointmentsRouter)
-app.use('*', (_, res) => res.sendFile(__dirname + '/public/index.html'))
+//app.use('*', (_, res) => res.sendFile(__dirname + '/public/index.html'))
 require('./error-handling')(app)
 
 module.exports = app
