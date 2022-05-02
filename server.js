@@ -4,5 +4,6 @@ const app = require('./app')
 const PORT = process.env.PORT
 
 app.listen(PORT, () => {
+	console.log('PORT: ', PORT)
 	console.log(`Server has started successfully`)
 })
