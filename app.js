@@ -1,6 +1,6 @@
 const express = require('express')
 const session = require('express-session')
-const MongoStore = require('connect-mongo')(session)
+const MongoStore = require('connect-mongo')
 const configFactory = require('./config')
 require('dotenv/config')
 const MONGO_URI = require('./db')
@@ -19,8 +19,8 @@ const appointmentsRouter = require('./ressources/appointment/appointment.routes'
 //      EXPRESS-SESSION CONFIG
 // ---------------------------------------------------
 
-const store = new MongoStore({
-	url: MONGO_URI,
+const store = MongoStore.create({
+	mongoUrl: MONGO_URI,
 	secret: process.env.SESSION_SECRET,
 	touchAfter: 24 * 60 * 60,
 })
