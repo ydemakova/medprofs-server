@@ -19,7 +19,9 @@ const appointmentsRouter = require('./ressources/appointment/appointment.routes'
 // ---------------------------------------------------
 
 const store = MongoStore.create({
-	mongoUrl: process.env.MONGODB_URI,
+	mongoUrl:
+		process.env.MONGODB_URI ||
+		'mongodb+srv://admin-yulia:Test123!@cluster0.4plfa.mongodb.net/medprofs?retryWrites=true&w=majority',
 	ttl: 24 * 60 * 60,
 })
 store.on('error', (e) => {
