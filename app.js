@@ -3,6 +3,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const configFactory = require('./config')
 require('dotenv/config')
+require('./db')
 
 const app = express()
 configFactory(app)
@@ -42,6 +43,10 @@ app.use(
 //      ROUTES
 // ---------------------------------------------------
 
+app.use('*', (req, res, next) => {
+	console.log(req.url)
+	next()
+})
 app.use('/api/auth', authRouter)
 app.use('/api', fileUploadRoutes)
 app.use('/api/users', usersRouter)

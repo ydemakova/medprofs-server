@@ -19,6 +19,7 @@ router.get('/:id', async (req, res, next) => {
 
 // read many/all users
 router.get('/', async (req, res, next) => {
+	console.log('req.url: ', req.url)
 	const isSpecialistsOnly = !!req.query.isSpecialistsOnly
 	let users
 

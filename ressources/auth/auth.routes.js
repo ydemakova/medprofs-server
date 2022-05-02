@@ -6,6 +6,7 @@ const { regexEmail, regexPassword } = require('./auth.values.js')
 const { isLoggedIn } = require('./auth.middleware')
 
 router.post('/sign-up', async (req, res) => {
+	console.log('req.body: ', req.body)
 	const { username, email, password, firstName, lastName, image } = req.body
 	if (!username || !email || !password || !firstName || !lastName) {
 		return res.status(500).json({
@@ -31,14 +32,14 @@ router.post('/sign-up', async (req, res) => {
 	const userCreated = await User.create(user).catch((e) => (err = e))
 
 	if (err) {
-		console.log(err)
+		console.log('err: ', err)
 		if (err.code === 11000) {
 			return res.status(500).json({ message: 'username or email entered already exists!' })
 		}
 		return res.status(500).json({ message: 'Something went wrong! Try again later!' })
 	}
 
-	console.log(JSON.stringify(userCreated, null, 2))
+	console.log('userCreated: ', JSON.stringify(userCreated, null, 2))
 	userCreated.password = '***'
 	req.session.loggedInUser = userCreated
 	return res.status(200).json(userCreated)
@@ -63,7 +64,7 @@ router.post('/sign-in', async (req, res) => {
 	if (user && bcrypt.compareSync(password, user.password)) {
 		user.password = '***'
 		req.session.loggedInUser = user
-		console.log(JSON.stringify(user, null, 2))
+		console.log('JSON user: ', JSON.stringify(user, null, 2))
 		return res.status(200).json(user)
 	}
 	return res.status(400).json({ message: "Email and password don't match!" })

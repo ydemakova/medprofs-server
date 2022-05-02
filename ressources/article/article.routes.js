@@ -6,7 +6,7 @@ const router = express.Router()
 // create one article
 router.post('/', async (req, res, next) => {
 	const user = req.session.loggedInUser
-	console.log(user)
+	console.log('user: ', user)
 	if (!user) {
 		return res.status(401).json({ message: 'User is not signed in!' })
 	}
@@ -20,7 +20,7 @@ router.post('/', async (req, res, next) => {
 // read one article
 router.get('/:id', async (req, res, next) => {
 	const user = req.session.loggedInUser
-	console.log(req.session.loggedInUser)
+	console.log('req.session.loggedInUser: ', req.session.loggedInUser)
 	const { id } = req.params
 	const article = await Article.findById(id)
 		.populate('author')
