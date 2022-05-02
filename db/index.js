@@ -10,13 +10,16 @@ const MONGO_URI = process.env.MONGODB_URI
 //'mongodb+srv://admin-yulia:Medprofs-123@cluster0.4plfa.mongodb.net/medprofs'
 //'mongodb+srv://admin-yulia:Medprofs-123@cluster0.4plfa.mongodb.net/medprofs?retryWrites=true&w=majority'
 
-/*mongoose
-		.connect(MONGO_URI)
-		.then((x) => {
-			console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
-		})
-		.catch((err) => {
-			console.error('Error connecting to mongo: ', err)
-		})
-*/
-module.exports = MONGO_URI
+mongoose
+	.connect(MONGO_URI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+	})
+	.then((x) => {
+		console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)
+	})
+	.catch((err) => {
+		console.error('Error connecting to mongo: ', err)
+	})
+
+//module.exports = MONGO_URI
