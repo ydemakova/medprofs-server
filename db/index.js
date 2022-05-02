@@ -13,7 +13,9 @@ const MONGO_URI = process.env.MONGODB_URI
 mongoose
 	.connect(MONGO_URI, {
 		useNewUrlParser: true,
-		//useUnifiedTopology: true,
+		useCreateIndex: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false,
 	})
 	.then((x) => {
 		console.log(`Connected to Mongo! Database name: "${x.connections[0].name}"`)

@@ -1,6 +1,6 @@
 const express = require('express')
 const session = require('express-session')
-const MongoStore = require('connect-mongo')
+const MongoDBStore = require('connect-mongo')(session)
 const configFactory = require('./config')
 require('dotenv/config')
 const MONGO_URI = require('./db')
@@ -19,19 +19,24 @@ const appointmentsRouter = require('./ressources/appointment/appointment.routes'
 //      EXPRESS-SESSION CONFIG
 // ---------------------------------------------------
 
+const store = new MongoDBStore({
+	url: MONGO_URI,
+	secret: process.env.SESSION_SECRET,
+	touchAfter: 24 * 60 * 60,
+})
+store.on('error', (e) => {
+	console.log('SESSION STORE ERROR', e)
+})
+
 app.use(
 	session({
-		secret: process.env.SESSION_SECRET, //DON'T FORGET TO ADD THIS IN YOUR .'.env' File
+		store,
 		resave: true,
+		secret: process.env.SESSION_SECRET,
 		saveUninitialized: false,
 		cookie: {
 			maxAge: 1000 * 24 * 60 * 60, // your cookie will be cleared after these seconds
 		},
-		store: MongoStore.create({
-			mongoUrl: MONGO_URI,
-			// Time to Live for sessions in DB. After that time it will delete it!
-			ttl: 24 * 60 * 60, // your session will be cleared after these seconds
-		}),
 	}),
 )
 
